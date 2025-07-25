@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>3단계 Treemap 시각화</title>
+    <script src="https://d3js.org/d3.v7.min.js"></script>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>3단계 Treemap 시각화</h1>
+            <p>Value 기준 누적합에 따른 3단계 구조화된 데이터 시각화</p>
+        </div>
+        
+        <div class="content">
+            <div class="controls">
+                <button class="btn" onclick="generateRandomData()">랜덤 데이터 생성</button>
+                <button class="btn" onclick="resetData()">원본 데이터 복원</button>
+            </div>
+            
+            <div class="treemap-container">
+                <div class="stage-label stage-1-label">1단계 (40% 이하)</div>
+                <div class="stage-label stage-2-label">2단계 (40% 이하)</div>
+                <div class="stage-label stage-3-label">3단계 (남은 항목)</div>
+                <div id="treemap"></div>
+            </div>
+            
+            <div class="legend">
+                <div class="legend-item">
+                    <span class="legend-color" style="background: #3498db;"></span>
+                    1단계 (파란색)
+                </div>
+                <div class="legend-item">
+                    <span class="legend-color" style="background: #e67e22;"></span>
+                    2단계 (주황색)
+                </div>
+                <div class="legend-item">
+                    <span class="legend-color" style="background: #2ecc71;"></span>
+                    3단계 (초록색)
+                </div>
+                <div class="legend-item">
+                    <span class="legend-color" style="background: #9b59b6;"></span>
+                    4단계 (보라색)
+                </div>
+                <div class="legend-item">
+                    <span class="legend-color" style="background: #f1c40f;"></span>
+                    5단계 (노란색)
+                </div>
+                <div class="legend-item">
+                    <span class="legend-color" style="background: #e74c3c;"></span>
+                    6단계 (빨간색)
+                </div>
+                <div class="legend-item">
+                    <span class="legend-color" style="background: #95a5a6;"></span>
+                    최종 (회색)
+                </div>
+            </div>
+            
+            <div class="stage-info">
+                <h4>단계별 배치 규칙</h4>
+                <div class="stage-details">
+                    <div class="stage-detail">
+                        <strong>홀수 단계:</strong> 누적합 40% 이하 → 오른쪽 40% 영역, 세로 배치 (위→아래)
+                    </div>
+                    <div class="stage-detail stage-2">
+                        <strong>짝수 단계:</strong> 나머지 40% 이하 → 좌측 60% 영역, 가로 배치 (우→좌)
+                    </div>
+                    <div class="stage-detail stage-3">
+                        <strong>최종:</strong> 남은 1~2개 항목 → 하단 영역, squarify 알고리즘
+                    </div>
+                </div>
+            </div>
+            
+            <div class="stats">
+                <h3>데이터 통계</h3>
+                <div class="stats-grid">
+                    <div class="stat-item">
+                        <div class="stat-label">총 항목 수</div>
+                        <div class="stat-value" id="total-items">20</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-label">총 Value</div>
+                        <div class="stat-value" id="total-value">0</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-label">1단계 항목</div>
+                        <div class="stat-value" id="stage1-count">0</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-label">2단계 항목</div>
+                        <div class="stat-value" id="stage2-count">0</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-label">최종 항목</div>
+                        <div class="stat-value" id="stage3-count">0</div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="stage-details-section">
+                <h3>단계별 포함 항목</h3>
+                <div class="stage-details-grid">
+                    <div class="stage-detail-card">
+                        <h4>홀수 단계 (세로 배치)</h4>
+                        <div class="stage-items" id="stage1-items">
+                            <span class="no-items">항목 없음</span>
+                        </div>
+                    </div>
+                    <div class="stage-detail-card">
+                        <h4>짝수 단계 (가로 배치)</h4>
+                        <div class="stage-items" id="stage2-items">
+                            <span class="no-items">항목 없음</span>
+                        </div>
+                    </div>
+                    <div class="stage-detail-card">
+                        <h4>최종 항목</h4>
+                        <div class="stage-items" id="stage3-items">
+                            <span class="no-items">항목 없음</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html> 
